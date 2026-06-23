@@ -1,0 +1,20 @@
+{
+  "system": "Seismic",
+  "dataset": "msmarco-v1-splade",
+  "n_docs": 8841823,
+  "n_queries_evaluated": 6980,
+  "quality": {
+    "mrr@10": 0.3261763200982399,
+    "recall@10": 0.5555754536771729,
+    "recall@100": 0.7164637058261699,
+    "recall@1000": 0.7377626552053487
+  },
+  "config": {
+    "n_postings": 3500,
+    "summary_energy": 0.4,
+    "centroid_fraction": 0.1,
+    "query_cut": 5,
+    "heap_factor": 10.0,
+    "k": 1000
+  }
+}

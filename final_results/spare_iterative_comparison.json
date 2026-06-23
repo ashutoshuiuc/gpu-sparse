@@ -1,0 +1,26 @@
+{
+  "100000": {
+    "num_docs": 100000,
+    "batch": 500,
+    "ours_triton_ms": 5.657,
+    "spare_iterative_ms": 1525.763,
+    "speedup_ours_over_spare": 269.69,
+    "top10_overlap": 1.0
+  },
+  "500000": {
+    "num_docs": 500000,
+    "batch": 500,
+    "ours_triton_ms": 33.206,
+    "spare_iterative_ms": 1546.879,
+    "speedup_ours_over_spare": 46.58,
+    "top10_overlap": 1.0
+  },
+  "1000000": {
+    "num_docs": 1000000,
+    "batch": 500,
+    "ours_triton_ms": 69.341,
+    "spare_iterative_ms": 1562.658,
+    "speedup_ours_over_spare": 22.54,
+    "top10_overlap": 1.0
+  }
+}

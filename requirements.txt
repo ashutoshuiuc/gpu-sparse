@@ -1,0 +1,12 @@
+# GPUSparse - core dependencies
+# Reported results used Python 3.11, CUDA 12.4 on NVIDIA H100 80GB.
+torch>=2.6
+triton>=3.2
+numpy>=1.24
+scipy>=1.10
+# Quality evaluation with official qrels
+ir_datasets>=0.5
+transformers>=4.40
+# Baselines (separate environments recommended):
+#   pyserini   -- exact CPU SPLADE ground truth
+#   pyseismic-lsr -- Seismic approximate baseline

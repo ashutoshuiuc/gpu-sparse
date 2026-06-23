@@ -1,0 +1,90 @@
+# Large experiment artifacts
+*.pt
+*.pth
+*.bin
+*.ckpt
+*.safetensors
+*.h5
+*.hdf5
+
+# Datasets
+datasets/
+data/
+*.tsv
+*.csv
+!tracker/*.csv
+
+# Conda / Python envs
+envs/
+__pycache__/
+*.pyc
+*.pyo
+.eggs/
+*.egg-info/
+dist/
+build/
+
+# Experiment outputs
+runs/
+logs/
+wandb/
+mlruns/
+outputs/
+*.log
+
+# OS / IDE
+.DS_Store
+*.swp
+*.swo
+.vscode/
+.idea/
+
+# LaTeX build artifacts
+my_paper/*.aux
+my_paper/*.bbl
+my_paper/*.blg
+my_paper/*.fdb_latexmk
+my_paper/*.fls
+my_paper/*.out
+my_paper/*.synctex.gz
+my_paper/*.toc
+my_paper/*.lof
+my_paper/*.lot
+my_paper/*.nav
+my_paper/*.snm
+my_paper/*.vrb
+
+# Cluster specific
+*.slurm
+slurm-*.out
+job_*.sh
+
+# Large files
+*.tar
+*.tar.gz
+*.zip
+*.7z
+
+# Faiss indices
+*.faiss
+*.ivf
+data_cache/
+checkpoints/
+*.aux
+*.bbl
+*.blg
+*.out
+*.toc
+*.fls
+*.fdb_latexmk
+*.synctex.gz
+
+# === Cluster-specific (retained locally, not pushed to public GitHub) ===
+*.err
+*.out
+tracker/
+TODO.md
+src/cluster_scripts/
+run_*.sh
+*lsf*
+lsf_logs/

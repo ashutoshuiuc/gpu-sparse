@@ -1,0 +1,36 @@
+{
+  "system": "Seismic",
+  "dataset": "msmarco-v1-splade",
+  "latency_runs": [
+    {
+      "mean_us": 88.0382337639466,
+      "median_us": 86.97749581187963,
+      "p99_us": 129.65689762495458
+    },
+    {
+      "mean_us": 87.93735803627972,
+      "median_us": 86.87051013112068,
+      "p99_us": 129.5703847426921
+    },
+    {
+      "mean_us": 87.05746641657436,
+      "median_us": 85.92952508479357,
+      "p99_us": 128.08081228286028
+    }
+  ],
+  "batch_throughput_s": [
+    0.08735253300983459,
+    0.08745641296263784,
+    0.08272645901888609
+  ],
+  "index_build_time_s": 1039.6554999351501,
+  "n_docs": 8841823,
+  "n_queries": 6980,
+  "config": {
+    "n_postings": 3500,
+    "summary_energy": 0.4,
+    "centroid_fraction": 0.1,
+    "query_cut": 5,
+    "heap_factor": 10.0
+  }
+}
