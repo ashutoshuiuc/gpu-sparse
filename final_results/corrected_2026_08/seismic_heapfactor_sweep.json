@@ -1,0 +1,189 @@
+{
+  "index_docs": 8841823,
+  "n_queries": 6980,
+  "runs": [
+    {
+      "heap_factor": 10.0,
+      "query_cut": 5,
+      "k": 1000,
+      "note": "PUBLISHED, heap_factor OUT OF DOMAIN",
+      "mrr@10": 0.3261763200982399,
+      "recall@1000": 0.7377626552053487,
+      "ms_per_query_1thread": 0.2299839241115275,
+      "qps_1thread": 4348.130000230207,
+      "num_evaluated": 6980
+    },
+    {
+      "heap_factor": 0.7,
+      "query_cut": 5,
+      "k": 1000,
+      "note": "valid",
+      "mrr@10": 0.3787471574111975,
+      "recall@1000": 0.9381685768863418,
+      "ms_per_query_1thread": 0.3791874322645302,
+      "qps_1thread": 2637.2182063839505,
+      "num_evaluated": 6980
+    },
+    {
+      "heap_factor": 0.7,
+      "query_cut": 10,
+      "k": 1000,
+      "note": "valid",
+      "mrr@10": 0.3804367353436121,
+      "recall@1000": 0.9487822349570201,
+      "ms_per_query_1thread": 0.40987087867321464,
+      "qps_1thread": 2439.7927543354176,
+      "num_evaluated": 6980
+    },
+    {
+      "heap_factor": 0.7,
+      "query_cut": 20,
+      "k": 1000,
+      "note": "valid",
+      "mrr@10": 0.38063713785418657,
+      "recall@1000": 0.953414517669532,
+      "ms_per_query_1thread": 0.42094152773007276,
+      "qps_1thread": 2375.6268605582823,
+      "num_evaluated": 6980
+    },
+    {
+      "heap_factor": 0.8,
+      "query_cut": 5,
+      "k": 1000,
+      "note": "valid",
+      "mrr@10": 0.3787887729112657,
+      "recall@1000": 0.9381924546322826,
+      "ms_per_query_1thread": 0.3350055661788984,
+      "qps_1thread": 2985.0250293034946,
+      "num_evaluated": 6980
+    },
+    {
+      "heap_factor": 0.8,
+      "query_cut": 10,
+      "k": 1000,
+      "note": "valid",
+      "mrr@10": 0.3804749397371174,
+      "recall@1000": 0.948662846227316,
+      "ms_per_query_1thread": 0.37130158405249303,
+      "qps_1thread": 2693.2284777396053,
+      "num_evaluated": 6980
+    },
+    {
+      "heap_factor": 0.8,
+      "query_cut": 20,
+      "k": 1000,
+      "note": "valid",
+      "mrr@10": 0.38067534224769184,
+      "recall@1000": 0.953295128939828,
+      "ms_per_query_1thread": 0.3789234639580407,
+      "qps_1thread": 2639.0553637257285,
+      "num_evaluated": 6980
+    },
+    {
+      "heap_factor": 0.9,
+      "query_cut": 5,
+      "k": 1000,
+      "note": "valid",
+      "mrr@10": 0.3788046914085596,
+      "recall@1000": 0.9370343839541547,
+      "ms_per_query_1thread": 0.3281733709624982,
+      "qps_1thread": 3047.1698452165833,
+      "num_evaluated": 6980
+    },
+    {
+      "heap_factor": 0.9,
+      "query_cut": 10,
+      "k": 1000,
+      "note": "valid",
+      "mrr@10": 0.3804908582344112,
+      "recall@1000": 0.9475405921680993,
+      "ms_per_query_1thread": 0.3216362272770835,
+      "qps_1thread": 3109.102505230292,
+      "num_evaluated": 6980
+    },
+    {
+      "heap_factor": 0.9,
+      "query_cut": 20,
+      "k": 1000,
+      "note": "valid",
+      "mrr@10": 0.3806896688952563,
+      "recall@1000": 0.9522445081184335,
+      "ms_per_query_1thread": 0.3338972955173613,
+      "qps_1thread": 2994.9329132796292,
+      "num_evaluated": 6980
+    },
+    {
+      "heap_factor": 1.0,
+      "query_cut": 5,
+      "k": 1000,
+      "note": "valid",
+      "mrr@10": 0.37868052712966754,
+      "recall@1000": 0.9360315186246418,
+      "ms_per_query_1thread": 0.29542616923422393,
+      "qps_1thread": 3384.9404830726626,
+      "num_evaluated": 6980
+    },
+    {
+      "heap_factor": 1.0,
+      "query_cut": 10,
+      "k": 1000,
+      "note": "valid",
+      "mrr@10": 0.38036868376768096,
+      "recall@1000": 0.9465377268385864,
+      "ms_per_query_1thread": 0.31101976902915274,
+      "qps_1thread": 3215.22970427731,
+      "num_evaluated": 6980
+    },
+    {
+      "heap_factor": 1.0,
+      "query_cut": 20,
+      "k": 1000,
+      "note": "valid",
+      "mrr@10": 0.380567494428526,
+      "recall@1000": 0.9511700095510983,
+      "ms_per_query_1thread": 0.3088026128730665,
+      "qps_1thread": 3238.314568313095,
+      "num_evaluated": 6980
+    }
+  ],
+  "summary": {
+    "published_invalid": {
+      "heap_factor": 10.0,
+      "query_cut": 5,
+      "k": 1000,
+      "note": "PUBLISHED, heap_factor OUT OF DOMAIN",
+      "mrr@10": 0.3261763200982399,
+      "recall@1000": 0.7377626552053487,
+      "ms_per_query_1thread": 0.2299839241115275,
+      "qps_1thread": 4348.130000230207,
+      "num_evaluated": 6980
+    },
+    "best_valid_by_mrr": {
+      "heap_factor": 0.9,
+      "query_cut": 20,
+      "k": 1000,
+      "note": "valid",
+      "mrr@10": 0.3806896688952563,
+      "recall@1000": 0.9522445081184335,
+      "ms_per_query_1thread": 0.3338972955173613,
+      "qps_1thread": 2994.9329132796292,
+      "num_evaluated": 6980
+    },
+    "best_valid_by_recall": {
+      "heap_factor": 0.7,
+      "query_cut": 20,
+      "k": 1000,
+      "note": "valid",
+      "mrr@10": 0.38063713785418657,
+      "recall@1000": 0.953414517669532,
+      "ms_per_query_1thread": 0.42094152773007276,
+      "qps_1thread": 2375.6268605582823,
+      "num_evaluated": 6980
+    },
+    "exact_splade_reference": {
+      "mrr@10": 0.3829,
+      "recall@1000": 0.9831,
+      "source": "results/fullscale_8m_results.json and pyserini_splade_results.json"
+    }
+  }
+}

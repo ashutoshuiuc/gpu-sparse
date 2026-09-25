@@ -1,0 +1,99 @@
+{
+ "_why": "Settle two numbers the audit left open.",
+ "environment": {
+  "gpu": "NVIDIA H100 80GB HBM3",
+  "torch": "2.9.1+cu128",
+  "triton": "3.5.1"
+ },
+ "n_docs": 100000,
+ "quality_vs_query_width": {
+  "64": {
+   "query_stats": {
+    "n_queries": 500,
+    "max_nnz": 107,
+    "width_used": 64,
+    "n_truncated": 67
+   },
+   "mrr@10": 0.8916166666666666,
+   "ndcg@10": 0.9115277015591158,
+   "recall@1000": 0.998
+  },
+  "96": {
+   "query_stats": {
+    "n_queries": 500,
+    "max_nnz": 107,
+    "width_used": 96,
+    "n_truncated": 2
+   },
+   "mrr@10": 0.8916166666666666,
+   "ndcg@10": 0.9115277015591158,
+   "recall@1000": 0.998
+  },
+  "107": {
+   "query_stats": {
+    "n_queries": 500,
+    "max_nnz": 107,
+    "width_used": 107,
+    "n_truncated": 0
+   },
+   "mrr@10": 0.8916166666666666,
+   "ndcg@10": 0.9115277015591158,
+   "recall@1000": 0.998
+  },
+  "128": {
+   "query_stats": {
+    "n_queries": 500,
+    "max_nnz": 107,
+    "width_used": 128,
+    "n_truncated": 0
+   },
+   "mrr@10": 0.8916166666666666,
+   "ndcg@10": 0.9115277015591158,
+   "recall@1000": 0.998
+  },
+  "None": {
+   "query_stats": {
+    "n_queries": 500,
+    "max_nnz": 107,
+    "width_used": 107,
+    "n_truncated": 0
+   },
+   "mrr@10": 0.8916166666666666,
+   "ndcg@10": 0.9115277015591158,
+   "recall@1000": 0.998
+  }
+ },
+ "block_pl_sweep": {
+  "32": {
+   "latency_ms": 3.8240959644317627,
+   "top10_agreement": 1.0
+  },
+  "64": {
+   "latency_ms": 3.5258560180664062,
+   "top10_agreement": 1.0
+  },
+  "128": {
+   "latency_ms": 3.341536045074463,
+   "top10_agreement": 1.0
+  },
+  "256": {
+   "latency_ms": 3.314687967300415,
+   "top10_agreement": 1.0
+  },
+  "512": {
+   "latency_ms": 3.301919937133789,
+   "top10_agreement": 1.0
+  },
+  "1024": {
+   "latency_ms": 3.386240005493164,
+   "top10_agreement": 1.0
+  }
+ },
+ "block_pl_summary": {
+  "fastest_block_pl": 512,
+  "min_ms": 3.301919937133789,
+  "max_ms": 3.8240959644317627,
+  "spread_pct_over_all": 15.814315223864734,
+  "spread_pct_64_to_512": 6.781996087010017
+ }
+}

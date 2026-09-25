@@ -1,0 +1,27 @@
+{
+  "dataset": "beir/trec-covid",
+  "reference_ndcg10": 0.727,
+  "n_docs": 171332,
+  "token_len_mean": 343.88425,
+  "token_len_p90": 495.0,
+  "frac_over_256": 0.75925,
+  "frac_over_512": 0.07625,
+  "runs": {
+    "max_length_256": {
+      "ndcg@10": 0.7281760059638188,
+      "queries_evaluated": 50,
+      "nnz": 28002324,
+      "terms_per_doc": 163.4389606144795,
+      "encode_s": 273.3812577724457,
+      "delta_vs_reference": 0.001176005963818838
+    },
+    "max_length_512": {
+      "ndcg@10": 0.72472870689819,
+      "queries_evaluated": 50,
+      "nnz": 30396749,
+      "terms_per_doc": 177.41431256274367,
+      "encode_s": 550.4578213691711,
+      "delta_vs_reference": -0.002271293101809957
+    }
+  }
+}

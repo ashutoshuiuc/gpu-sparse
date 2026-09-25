@@ -87,6 +87,9 @@ def dict_to_index(d):
 
 
 def make_queries(num_queries, vocab_size, max_terms=64, avg_terms=30, device=None, seed=123):
+    """Synthetic query generator; max_terms is the generated array width, not a
+    truncation of real queries, so it does not affect exactness. Real query
+    preparation uses max_terms=128."""
     """Generate query batch."""
     rng = np.random.RandomState(seed)
     ranks = np.arange(1, vocab_size + 1, dtype=np.float64)

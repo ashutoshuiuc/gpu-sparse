@@ -1,0 +1,45 @@
+{
+  "setup": {
+    "n_docs": 8841823,
+    "index_gib": 7.906154632568359,
+    "n_chunks": 68,
+    "boundary_mib": 16.067642211914062,
+    "boundary_build_s": 2.856426239013672
+  },
+  "correctness": {
+    "B": 64,
+    "top1000_overlap": 1.0,
+    "top10_overlap": 1.0,
+    "max_score_diff": 7.62939453125e-06
+  },
+  "scaling": {
+    "B16": {
+      "accumulator_gib_monolithic": 0.5270137190818787,
+      "accumulator_gib_chunked": 0.0078125,
+      "mono_ms": 20.247520446777344,
+      "mono_peak_gib": 8.454698085784912,
+      "chunked_ms": 24.837120056152344,
+      "chunked_peak_gib": 7.935757160186768
+    },
+    "B64": {
+      "accumulator_gib_monolithic": 2.1080548763275146,
+      "accumulator_gib_chunked": 0.03125,
+      "mono_ms": 47.857662200927734,
+      "mono_peak_gib": 10.048498153686523,
+      "chunked_ms": 38.15568161010742,
+      "chunked_peak_gib": 7.9730024337768555
+    },
+    "B256": {
+      "accumulator_gib_monolithic": 8.432219505310059,
+      "accumulator_gib_chunked": 0.125,
+      "mono_ms": 185.49676513671875,
+      "mono_peak_gib": 16.425511837005615,
+      "chunked_ms": 149.16275024414062,
+      "chunked_peak_gib": 8.122380256652832
+    }
+  },
+  "max_batch": {
+    "mono": 2048,
+    "chunked": 32768
+  }
+}

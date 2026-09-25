@@ -50,7 +50,7 @@ def encode_queries_splade(texts, tokenizer, model, device, max_length=128):
     return sparse
 
 
-def sparse_to_query_tensors(sparse_reps, max_terms=64):
+def sparse_to_query_tensors(sparse_reps, max_terms=128):
     """Convert dense SPLADE output to sparse (term_ids, term_scores) for Triton kernel."""
     batch_size = sparse_reps.shape[0]
     device = sparse_reps.device

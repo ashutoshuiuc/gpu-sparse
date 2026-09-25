@@ -61,7 +61,7 @@ def bench_fn(fn, warmup=3, trials=10, device="cuda:0"):
 
 
 ###############################################################################
-# DATA: Real SPLADE encodings via naver/splade-v3
+# DATA: Real SPLADE encodings via naver/splade-cocondenser-ensembledistil
 ###############################################################################
 
 def encode_splade_to_csr(texts, device, batch_size=64, max_length=256):
@@ -114,7 +114,7 @@ def splade_to_dense(splade_csr, vocab_size=VOCAB_SIZE):
 
 
 def build_doc_csr_from_scipy(csr_mat, device):
-    """Build Triton doc-CSR index directly from scipy CSR - no dense intermediate."""
+    """Build Triton doc-CSR index directly from scipy CSR, with no dense intermediate."""
     import time as _time
     t0 = _time.time()
     num_docs = csr_mat.shape[0]

@@ -89,7 +89,7 @@ def main():
         csr = sp.load_npz(p)
         meta = torch.load(CACHE / f"msmarco_splade_csr_{num_docs}_meta.pt",
                           map_location="cpu", weights_only=False)
-        q_ids, q_scores, _ = prepare_queries_from_meta(meta, max_terms=64, device=DEVICE)
+        q_ids, q_scores, _ = prepare_queries_from_meta(meta, max_terms=128, device=DEVICE)
         q_ids, q_scores = q_ids[:BATCH], q_scores[:BATCH]
 
         # Ours: fused Triton kernel

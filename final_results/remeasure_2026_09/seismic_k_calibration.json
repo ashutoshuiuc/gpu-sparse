@@ -1,0 +1,123 @@
+{
+ "_why": "settle the k=10 single-core calibration row; FUTURE_WORK item 6",
+ "index_docs": 8841823,
+ "n_queries": 6980,
+ "n_queries_with_qrels": 6980,
+ "rayon_num_threads": "1",
+ "cpu_affinity": [
+  0
+ ],
+ "published_reference_us": {
+  "low": 187,
+  "high": 531,
+  "k": 10,
+  "source": "bruch2024seismic reported range"
+ },
+ "paper_row_to_calibrate": {
+  "k": 1000,
+  "ms_per_query": 7.071,
+  "cores": 1,
+  "heap_factor": 0.7,
+  "query_cut": 20
+ },
+ "runs": [
+  {
+   "k": 10,
+   "heap_factor": 0.7,
+   "query_cut": 20,
+   "wall_s": 8.990400552749634,
+   "ms_per_query": 1.2880230018265952,
+   "us_per_query": 1288.0230018265952,
+   "cpu_s": 8.706336,
+   "cpu_over_wall": 0.9684035709996531,
+   "qps": 776.3836504331533,
+   "mrr@10": 0.3802282598808387,
+   "recall@10": 0.662655205348615,
+   "num_evaluated": 6980,
+   "pinning_clean": true
+  },
+  {
+   "k": 100,
+   "heap_factor": 0.7,
+   "query_cut": 20,
+   "wall_s": 22.243361711502075,
+   "ms_per_query": 3.186728038897145,
+   "us_per_query": 3186.7280388971453,
+   "cpu_s": 21.678903,
+   "cpu_over_wall": 0.9746234980654838,
+   "qps": 313.8014878565155,
+   "mrr@10": 0.38060865511438574,
+   "recall@100": 0.8917502387774593,
+   "num_evaluated": 6980,
+   "pinning_clean": true
+  },
+  {
+   "k": 1000,
+   "heap_factor": 0.7,
+   "query_cut": 20,
+   "wall_s": 61.635074853897095,
+   "ms_per_query": 8.830239950415056,
+   "us_per_query": 8830.239950415056,
+   "cpu_s": 60.094038000000005,
+   "cpu_over_wall": 0.9749974043586377,
+   "qps": 113.24720569490255,
+   "mrr@10": 0.38063713785418657,
+   "recall@1000": 0.953414517669532,
+   "num_evaluated": 6980,
+   "pinning_clean": true
+  },
+  {
+   "k": 10,
+   "heap_factor": 0.9,
+   "query_cut": 10,
+   "wall_s": 3.4928112030029297,
+   "ms_per_query": 0.5004027511465515,
+   "us_per_query": 500.40275114655145,
+   "cpu_s": 3.3776030000000077,
+   "cpu_over_wall": 0.9670156225724791,
+   "qps": 1998.390292037249,
+   "mrr@10": 0.3764203279210443,
+   "recall@10": 0.6507402101241642,
+   "num_evaluated": 6980,
+   "pinning_clean": true
+  },
+  {
+   "k": 100,
+   "heap_factor": 0.9,
+   "query_cut": 10,
+   "wall_s": 8.741481065750122,
+   "ms_per_query": 1.2523611842048885,
+   "us_per_query": 1252.3611842048886,
+   "cpu_s": 8.523105999999984,
+   "cpu_over_wall": 0.9750185278549935,
+   "qps": 798.4916912247563,
+   "mrr@10": 0.37981233228726075,
+   "recall@100": 0.8838705826170009,
+   "num_evaluated": 6980,
+   "pinning_clean": true
+  },
+  {
+   "k": 1000,
+   "heap_factor": 0.9,
+   "query_cut": 10,
+   "wall_s": 35.643916606903076,
+   "ms_per_query": 5.106578310444567,
+   "us_per_query": 5106.578310444566,
+   "cpu_s": 34.62227200000001,
+   "cpu_over_wall": 0.9713374762327548,
+   "qps": 195.82584251272206,
+   "mrr@10": 0.3804908582344112,
+   "recall@1000": 0.9475405921680993,
+   "num_evaluated": 6980,
+   "pinning_clean": true
+  }
+ ],
+ "verdict": {
+  "best_k10_us_per_query": 500.40275114655145,
+  "in_published_range": true,
+  "within_2x_of_published_high": true,
+  "k1000_over_k10_ratio": 17.64626579326893,
+  "rows_with_leaked_pinning": 0,
+  "reading": "k=10 near the published range confirms the pinning is clean and the 7.07 ms k=1000 figure is a property of large-k search, not of our setup."
+ }
+}

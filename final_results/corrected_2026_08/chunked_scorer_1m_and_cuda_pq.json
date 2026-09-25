@@ -1,0 +1,30 @@
+{
+ "_PROJECT": "GPUSparse",
+ "_note": "Split 2026-09-24. This file previously also held a 'cuda_pq' block, which is TileMaxSim's PQ ADC CUDA ablation (BQ=4 tiled against the Triton ADC path) and has nothing to do with GPUSparse's scatter-add kernel. Keeping two projects' results in one JSON is a contamination risk: it invites reading the PQ CUDA speedup as evidence about this project's Triton-versus-CUDA choice, which it is not. The block now lives in tilemaxsim/experiment_results/corrected_2026_08/.",
+ "chunked_scorer": {
+  "N100000": {
+   "overlap": 1.0,
+   "max_score_diff": 3.814697265625e-06,
+   "mono_ms": 3.3408000469207764,
+   "chunked_ms": 3.423327922821045,
+   "mono_peak_gib": 0.2999897003173828,
+   "chunked_peak_gib": 0.30849790573120117,
+   "memory_reduction": 0.9724205407694674,
+   "latency_ratio": 1.0247030276404403,
+   "boundary_build_s": 0.28124141693115234,
+   "boundary_mib": 0.465728759765625
+  },
+  "N1000000": {
+   "overlap": 1.0,
+   "max_score_diff": 5.7220458984375e-06,
+   "mono_ms": 35.29119873046875,
+   "chunked_ms": 33.926815032958984,
+   "mono_peak_gib": 2.794834613800049,
+   "chunked_peak_gib": 1.3421211242675781,
+   "memory_reduction": 2.0824011806872087,
+   "latency_ratio": 0.9613392645591315,
+   "boundary_build_s": 0.534919023513794,
+   "boundary_mib": 2.0957794189453125
+  }
+ }
+}

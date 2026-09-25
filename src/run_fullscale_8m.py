@@ -41,7 +41,7 @@ DEVICE = "cuda:0"
 def load_splade_from_tar(tar_path, vocab, max_docs=None):
     """Load SPLADE sparse vectors from Seismic's tar.gz format.
     Uses chunked numpy arrays to avoid Python list memory overhead.
-    Vector keys are WordPiece token strings - we convert to vocab IDs.
+    Vector keys are WordPiece token strings, which we convert to vocab IDs.
     Returns: doc_ids_list, rows (np.int32), cols (np.int32), vals (np.float32)
     """
 
@@ -130,7 +130,7 @@ def load_splade_from_tar(tar_path, vocab, max_docs=None):
 
 def load_queries_from_tar(tar_path, vocab=None):
     """Load queries from Seismic's tar.gz format.
-    Vector keys are WordPiece token strings - convert using vocab dict.
+    Vector keys are WordPiece token strings, converted using the vocab dict.
     """
     print(f"Loading queries from {tar_path}...")
     queries = {}
@@ -185,7 +185,10 @@ def build_gpu_inverted_index(rows, cols, vals, num_docs, vocab_size, device):
     BLOCK = 32
     t0 = time.time()
 
-    sort_idx = np.argsort(cols)
+    # kind='stable' so entries stay ascending by doc_id within each posting list,
+    # which is the layout invariant the paper and gpu_inverted_index.py document.
+    # Default (quicksort) left 96.2% of posting lists non-ascending.
+    sort_idx = np.argsort(cols, kind='stable')
     sorted_terms = cols[sort_idx]
     sorted_docs = rows[sort_idx]
     sorted_scores = vals[sort_idx]
@@ -247,7 +250,7 @@ def build_gpu_inverted_index(rows, cols, vals, num_docs, vocab_size, device):
     }
 
 
-def prepare_query_tensors(queries_dict, max_terms=64, device="cuda:0"):
+def prepare_query_tensors(queries_dict, max_terms=128, device="cuda:0"):
     """Convert query dict {qid: {term_idx: weight}} to padded tensors."""
     qids = list(queries_dict.keys())
     n_queries = len(qids)
@@ -459,7 +462,7 @@ def main():
     # Step 5: Prepare query tensors
     print("\nPreparing query tensors...")
     qids, q_ids_tensor, q_scores_tensor = prepare_query_tensors(
-        valid_queries, max_terms=64, device=device
+        valid_queries, max_terms=128, device=device
     )
 
     # Step 6: Run retrieval (all queries, top-1000)

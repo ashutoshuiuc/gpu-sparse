@@ -39,7 +39,8 @@ def _scatter_add_v2_kernel(
     Uses larger BLOCK_PL for better memory throughput.
     Grid: [batch, max_qterms]
     """
-    q_idx = tl.program_id(0)
+    # int64: q_idx * num_docs overflows signed int32 once batch * num_docs > 2^31.
+    q_idx = tl.program_id(0).to(tl.int64)
     t_pos = tl.program_id(1)
 
     # Load query term
@@ -104,7 +105,8 @@ def _multi_term_scatter_kernel(
 
     Grid: [batch, ceil(max_qterms / TERMS_PER_PROGRAM)]
     """
-    q_idx = tl.program_id(0)
+    # int64: q_idx * num_docs overflows signed int32 once batch * num_docs > 2^31.
+    q_idx = tl.program_id(0).to(tl.int64)
     term_block = tl.program_id(1)
 
     base_out = q_idx * num_docs

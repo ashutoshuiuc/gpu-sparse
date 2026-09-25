@@ -1,0 +1,14 @@
+dataset                      relevance values       binary  metric-affected
+beir/nfcorpus/test           {1: 11758, 2: 576}     False   YES
+beir/scifact/test            {1: 339}               True    no
+beir/arguana                 {1: 1406}              True    no
+beir/scidocs                 {0: 25000, 1: 4928}    True    no
+beir/fiqa/test               {1: 1706}              True    no
+beir/trec-covid              {-1: 2, 0: 41661, 1: 10456, 2: 14217} False   YES
+beir/webis-touche2020/v2     {0: 1282, 1: 296, 2: 636} False   YES
+beir/quora/test              {1: 15675}             True    no
+beir/nq                      {1: 4201}              True    no
+beir/dbpedia-entity/test     {0: 28229, 1: 8785, 2: 6501} False   YES
+beir/hotpotqa/test           {1: 14810}             True    no
+beir/fever/test              {1: 7937}              True    no
+climate-fever                {1: 4681}              True    no   (from cached meta; the ir_datasets pass was killed after 12 of 13 to stop a redundant 5.4M download)

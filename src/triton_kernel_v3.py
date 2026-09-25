@@ -43,7 +43,9 @@ def _scatter_add_v3_kernel(
     3. Precompute base offset to avoid repeated multiply
     4. Process in a single pass with wider loads
     """
-    q_idx = tl.program_id(0)
+    # int64: q_idx * num_docs overflows signed int32 once batch * num_docs > 2^31
+    # (e.g. batch 243 at 8.84M docs), causing illegal memory access.
+    q_idx = tl.program_id(0).to(tl.int64)
     t_pos = tl.program_id(1)
 
     # Early exit: check actual number of query terms
@@ -113,16 +115,22 @@ def _doc_parallel_kernel(
     BLOCK_PL: tl.constexpr,    # PL scan chunk size
 ):
     """
-    Document-parallel kernel: each program handles a block of documents
-    for one query. Iterates over all query terms, scanning posting lists
-    for documents in the block's range.
+    UNIMPLEMENTED STUB. DO NOT USE. Has no wrapper and no callers.
+
+    The inner accumulation loop terminates in `pass` (see below), so `acc` is
+    never written and this kernel stores an all-zero score row. It is retained
+    only as a sketch of the document-parallel idea.
+
+    The working document-parallel kernel is `_doc_csr_score_kernel` in
+    triton_kernel_v4.py, which is what the paper's document-parallel results
+    are measured with.
+
+    Intended design (not realised here): each program handles a block of
+    documents for one query, iterating over query terms and scanning posting
+    lists for documents in the block's range. Coalesced writes, scattered
+    reads, and zero atomics since each program owns its doc range exclusively.
 
     Grid: [batch, ceil(num_docs / BLOCK_D)]
-
-    This kernel has coalesced WRITES (to contiguous doc range in output)
-    but scattered READS (scanning posting lists). For cases where atomic
-    contention is the bottleneck, this is better because there are ZERO
-    atomics -- each program owns its doc range exclusively.
     """
     q_idx = tl.program_id(0)
     block_idx = tl.program_id(1)
@@ -214,7 +222,9 @@ def _scatter_add_v3_tiled_kernel(
 
     Grid: [batch, ceil(max_qterms / TERMS_PER_PROGRAM)]
     """
-    q_idx = tl.program_id(0)
+    # int64: q_idx * num_docs overflows signed int32 once batch * num_docs > 2^31
+    # (e.g. batch 243 at 8.84M docs), causing illegal memory access.
+    q_idx = tl.program_id(0).to(tl.int64)
     term_block = tl.program_id(1)
 
     n_terms = tl.load(num_query_terms_ptr + q_idx)

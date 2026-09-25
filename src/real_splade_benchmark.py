@@ -236,7 +236,7 @@ def build_gpu_index(doc_ids_arr, term_ids_arr, scores_arr, vocab_size, device):
     }
 
 
-def prepare_query_tensors(query_reps, max_terms=64, device="cuda:0"):
+def prepare_query_tensors(query_reps, max_terms=128, device="cuda:0"):
     """Convert dense query representations to sparse (term_ids, term_scores) tensors."""
     n_queries = query_reps.shape[0]
     vocab_size = query_reps.shape[1]
@@ -476,7 +476,7 @@ def main():
         scale_results['build_time_s'] = float(build_time)
 
         # Prepare queries
-        q_ids, q_scores = prepare_query_tensors(query_reps, max_terms=64, device=device)
+        q_ids, q_scores = prepare_query_tensors(query_reps, max_terms=128, device=device)
 
         # Also prepare dense matrices for ground truth and dense baselines
         doc_dense_gpu = doc_subset.to(device)
@@ -688,7 +688,7 @@ def main():
             num_docs=idx2['num_docs'], vocab_size=idx2['vocab_size'], device=idx2['device'],
         )
 
-        q_ids0, q_scores0 = prepare_query_tensors(query_reps, max_terms=64, device=device0)
+        q_ids0, q_scores0 = prepare_query_tensors(query_reps, max_terms=128, device=device0)
         q_ids1 = q_ids0.to(device1)
         q_scores1 = q_scores0.to(device1)
 
@@ -749,7 +749,7 @@ def main():
 
     batch_results = {}
     for bs in [1, 8, 32, 64, 128, 200]:
-        q_sub_ids, q_sub_scores = prepare_query_tensors(query_reps[:bs], max_terms=64, device=device)
+        q_sub_ids, q_sub_scores = prepare_query_tensors(query_reps[:bs], max_terms=128, device=device)
         r = bench(lambda: triton_fused_score(idx_obj, q_sub_ids, q_sub_scores, 10),
                   warmup=3, trials=10, sync_device=device)
         per_query_us = r['mean_ms'] / bs * 1000

@@ -41,7 +41,10 @@ def build_gpu_index_from_csr(csr_mat, device):
     vals = coo.data.astype(np.float32)
 
     # Sort by term (column)
-    sort_idx = np.argsort(cols)
+    # kind='stable' so entries stay ascending by doc_id within each posting list,
+    # which is the layout invariant the paper and gpu_inverted_index.py document.
+    # Default (quicksort) left 96.2% of posting lists non-ascending.
+    sort_idx = np.argsort(cols, kind='stable')
     sorted_terms = cols[sort_idx]
     sorted_docs = rows[sort_idx]
     sorted_scores = vals[sort_idx]
@@ -81,7 +84,7 @@ def build_gpu_index_from_csr(csr_mat, device):
     )
 
 
-def prepare_queries_from_meta(meta, max_terms=64, device="cuda:0"):
+def prepare_queries_from_meta(meta, max_terms=128, device="cuda:0"):
     """Prepare query tensors from cached metadata."""
     query_dense = meta["query_dense"]
     if isinstance(query_dense, torch.Tensor):
@@ -151,7 +154,7 @@ def main():
 
         # Prepare queries
         q_ids_tensor, q_scores_tensor, query_dense = prepare_queries_from_meta(
-            meta, max_terms=64, device=device
+            meta, max_terms=128, device=device
         )
         n_queries = q_ids_tensor.shape[0]
         print(f"  Queries: {n_queries}")
@@ -215,7 +218,7 @@ def main():
         print(f"    Speedup: {cpu_time/gpu_time:.1f}x")
 
         if recall.get('recall@1000', 0) < 0.999:
-            print("    WARNING: Recall@1000 < 0.999 - possible scoring bug!")
+            print("    WARNING: Recall@1000 < 0.999, possible scoring bug!")
 
         all_results[str(num_docs)] = scale_results
 

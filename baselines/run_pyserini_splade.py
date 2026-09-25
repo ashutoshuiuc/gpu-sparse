@@ -2,7 +2,7 @@
 Pyserini SPLADE CPU Baseline at 8.8M MS MARCO.
 
 Uses pre-built Lucene impact index for SPLADE-pp-ed (exact scoring on CPU).
-This gives us the ground truth MRR@10 - our GPU system MUST match this exactly.
+This gives us the ground truth MRR@10. Our GPU system must match it exactly.
 """
 
 import os

@@ -1,4 +1,4 @@
-# GPUSparse - core dependencies
+# GPUSparse: core dependencies
 # Reported results used Python 3.11, CUDA 12.4 on NVIDIA H100 80GB.
 torch>=2.6
 triton>=3.2

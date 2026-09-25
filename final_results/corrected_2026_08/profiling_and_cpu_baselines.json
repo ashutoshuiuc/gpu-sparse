@@ -1,0 +1,201 @@
+{
+  "_description": "GPUSparse counter-measured profiling and CPU baselines, 2026-08. Supersedes the analytic bandwidth model in results/ and the heap_factor=10.0 Seismic runs.",
+  "environment": {
+    "gpu": "NVIDIA H100 80GB HBM3",
+    "cpu_node": "96 cores",
+    "cuda": "/opt/share/cuda-12.8",
+    "note": "nproc misreports 2 on these nodes; verified 96 usable cores by process-scaling test"
+  },
+  "ncu_scatter_add": {
+    "config": {
+      "N": 100000,
+      "B": 500,
+      "grid": [
+        500,
+        128
+      ],
+      "block": [
+        128,
+        1,
+        1
+      ]
+    },
+    "dram__bytes_read.sum_GB": 2.24,
+    "dram__bytes_write.sum_MB": 1500,
+    "dram__throughput_pct_of_peak": 44.19,
+    "sm__warps_active_pct": 95.5,
+    "l1tex_sectors_per_request": 3.75,
+    "l1tex_max_rate": 32,
+    "lts__t_sector_hit_rate_pct": 54.96,
+    "launch__registers_per_thread": 18,
+    "supersedes": {
+      "analytic_bytes_GB": 0.09,
+      "analytic_pct_of_peak": 0.37,
+      "understatement_factor": 42,
+      "pct_error_factor": 119
+    }
+  },
+  "ncu_doc_parallel": {
+    "config": {
+      "N": 100000,
+      "B": 50,
+      "grid": [
+        100000,
+        50
+      ]
+    },
+    "dram__bytes_read.sum_GB": 4.89,
+    "dram__bytes_write.sum_MB": 22.62,
+    "dram__throughput_pct_of_peak": 34.73,
+    "sm__warps_active_pct": 89.63,
+    "l1tex_sectors_per_request": 7.71,
+    "lts__t_sector_hit_rate_pct": 26.23,
+    "launch__registers_per_thread": 24,
+    "supersedes": {
+      "analytic_bytes_GB_per_500q": 76.3,
+      "analytic_pct_of_peak": 62.6,
+      "overstatement_factor": 1.56
+    },
+    "verdict": "scatter-add (44.19%) exceeds doc-parallel (34.73%); the published dichotomy was inverted"
+  },
+  "nsys_pipeline_kernel_share": {
+    "config": {
+      "N": 100000,
+      "B": 500,
+      "k": 1000,
+      "iterations": 8
+    },
+    "scatter_add_pct": 76.2,
+    "topk_all_kernels_pct": 21.9,
+    "buffer_fill_pct": 1.8,
+    "cuda_event_crosscheck": {
+      "traversal_pct": 76.3,
+      "topk_pct": 21.6,
+      "alloc_pct": 2.1
+    },
+    "topk_kernel_count": 8,
+    "topk_kernels": {
+      "mbtopk::radixFindKthValues": {
+        "instances_per_call": 4,
+        "dram_read_MB_each": 200.02,
+        "dram_throughput_pct": 52.02,
+        "lts_hit_pct": 1.47,
+        "us": 116.83
+      },
+      "mbtopk::gatherTopK": {
+        "instances_per_call": 1,
+        "us": 212.6
+      },
+      "others": [
+        "computeBlockwiseWithinKCounts x4",
+        "radixSortKVInPlace",
+        "computeBlockwiseKthCounts",
+        "cub::DeviceScanByKey x2",
+        "mbtopk::fill"
+      ]
+    },
+    "note": "top-k reads the full [B,N] fp32 buffer once per radix pass, 4 passes for fp32"
+  },
+  "cpu_baselines": {
+    "seismic_core_pinning": {
+      "note": "taskset-pinned; the library ignores num_threads and saturates 34-36 cores by default",
+      "k": 1000,
+      "heap_factor": 0.7,
+      "query_cut": 20,
+      "mrr@10": 0.3806,
+      "recall@1000": 0.9534,
+      "rows": [
+        {
+          "cores": 1,
+          "wall_s": 49.36,
+          "cpu_s": 49.18,
+          "ms_per_query": 7.071,
+          "qps": 141.4
+        },
+        {
+          "cores": 4,
+          "wall_s": 13.51,
+          "cpu_s": 49.71,
+          "ms_per_query": 1.936,
+          "qps": 516.6
+        },
+        {
+          "cores": 8,
+          "wall_s": 7.6,
+          "cpu_s": 51.16,
+          "ms_per_query": 1.09,
+          "qps": 917.8
+        },
+        {
+          "cores": 32,
+          "wall_s": 3.11,
+          "cpu_s": 57.78,
+          "ms_per_query": 0.446,
+          "qps": 2242.9
+        },
+        {
+          "cores": 96,
+          "wall_s": 2.74,
+          "cpu_s": 121.17,
+          "ms_per_query": 0.392,
+          "qps": 2550.7
+        }
+      ]
+    },
+    "seismic_num_threads_is_ignored": [
+      {
+        "num_threads": 1,
+        "wall_s": 27.36,
+        "cpu_s": 994.71,
+        "cores_busy": 36.4
+      },
+      {
+        "num_threads": 64,
+        "wall_s": 25.4,
+        "cpu_s": 869.47,
+        "cores_busy": 34.2
+      }
+    ],
+    "bmp": {
+      "source": "pisa-engine/BMP, SPLADE CIFF from pisa-engine/ciff-hub (same model as ours)",
+      "search_is_sequential": "verified in source: b_search_verbose is a plain for-loop; only Index::build uses par_iter",
+      "k1000_exact_pinned": [
+        {
+          "cores": 1,
+          "ms_per_query": 3.786,
+          "qps": 264.2
+        },
+        {
+          "cores": 8,
+          "ms_per_query": 3.516,
+          "qps": 284.4
+        },
+        {
+          "cores": 32,
+          "ms_per_query": 3.482,
+          "qps": 287.2
+        }
+      ],
+      "k1000_alpha085_ms_per_query": 2.56,
+      "k10_exact_ms_per_query": 1.927,
+      "quality": {
+        "k1000_exact": {
+          "mrr@10": 0.3813,
+          "recall@1000": 0.9836
+        },
+        "k1000_alpha085": {
+          "mrr@10": 0.3811,
+          "recall@1000": 0.9827
+        }
+      },
+      "index_note": "13.5 GB, deserialized into heap per process (no mmap), so scaling by process replication costs 13.5 GB per stream"
+    },
+    "gpusparse_reference": {
+      "ms_per_query": 1.27,
+      "qps": 787.2,
+      "mrr@10": 0.38287,
+      "recall@1000": 0.98311
+    },
+    "crossover": "one H100 is equivalent to ~6.7 CPU cores of Seismic for this workload"
+  }
+}

@@ -146,7 +146,7 @@ def main():
     doc_csr_index = build_doc_csr_index(doc_reps, device)
 
     # Prepare queries
-    q_term_ids, q_term_scores = prepare_query_tensors(query_reps, max_terms=96, device=device)
+    q_term_ids, q_term_scores = prepare_query_tensors(query_reps, max_terms=128, device=device)
     query_weights = build_query_weight_matrix(query_reps, device)
     print(f"  Query weight matrix: {query_weights.shape}, {query_weights.nelement() * 4 / 1e6:.0f} MB")
 

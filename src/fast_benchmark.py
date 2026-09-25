@@ -91,6 +91,10 @@ def build_index_fast(doc_ids_arr, term_ids_arr, scores_arr, vocab_size, device):
 
 
 def make_queries(num_queries, vocab_size, max_terms=64, avg_terms=30, device=None, seed=123):
+    """Synthetic query generator. NOTE: max_terms here is the width of the generated
+    array, not a truncation of real queries, so it does not affect exactness. Real
+    query preparation uses max_terms=128 (observed max nnz on MS MARCO dev is 107);
+    see prepare_queries_from_meta in run_correctness_verification.py."""
     """Generate query batch."""
     rng = np.random.RandomState(seed)
     ranks = np.arange(1, vocab_size + 1, dtype=np.float64)

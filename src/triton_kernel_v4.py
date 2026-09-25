@@ -18,6 +18,10 @@ import triton
 import triton.language as tl
 from typing import Tuple
 import numpy as np
+try:
+    import scipy.sparse as sp
+except ImportError:  # scipy is optional; the guard below degrades gracefully
+    sp = None
 import time
 
 
@@ -44,8 +48,10 @@ def _doc_csr_score_kernel(
     Process document terms in chunks, looking up query weights.
     Zero atomics. Coalesced writes.
     """
-    doc_id = tl.program_id(0)
-    q_idx = tl.program_id(1)
+    # int64: q_idx * num_docs + doc_id overflows signed int32 once
+    # batch * num_docs > 2^31, causing illegal memory access.
+    doc_id = tl.program_id(0).to(tl.int64)
+    q_idx = tl.program_id(1).to(tl.int64)
 
     # Load document metadata
     d_off = tl.load(doc_offsets_ptr + doc_id)
@@ -88,14 +94,37 @@ def build_doc_csr_index(doc_reps, device):
     Build a document-centric CSR index from dense SPLADE representations.
 
     For each document, store (term_id, term_score) pairs sorted by term_id.
+
+    IMPORTANT: doc_reps must be a DENSE array (or torch.Tensor) of shape
+    [num_docs, vocab_size]. This is a real scalability limit of the
+    document-parallel path: the dense form is num_docs * 30522 * 4 bytes, i.e.
+    about 12.2 GB at 100K documents and 122 GB at 1M, which is why the
+    document-parallel kernel is only evaluated up to 500K documents.
+
+    Passing a scipy sparse matrix used to fail catastrophically rather than
+    clearly: `doc_np[rows, cols]` returns a (1, nnz) np.matrix, and the
+    subsequent `vals[sort_idx]` then performs matrix fancy-indexing and attempts
+    an (nnz, nnz) allocation (528 TiB at 100K documents). We now reject that
+    input explicitly.
     """
     t0 = time.time()
+    if sp is not None and sp.issparse(doc_reps):
+        raise TypeError(
+            "build_doc_csr_index expects a dense [num_docs, vocab_size] array, "
+            "got a scipy sparse matrix. Densify explicitly if you have the "
+            f"memory ({doc_reps.shape[0] * doc_reps.shape[1] * 4 / 2**30:.1f} GiB "
+            "for this input), or use the scatter-add path, which consumes the "
+            "sparse inverted index directly."
+        )
     doc_np = doc_reps.numpy() if isinstance(doc_reps, torch.Tensor) else doc_reps
+    doc_np = np.asarray(doc_np)          # np.matrix -> ndarray, so indexing is 1-D
+    if doc_np.ndim != 2:
+        raise ValueError(f"expected a 2-D [num_docs, vocab_size] array, got shape {doc_np.shape}")
     num_docs, vocab_size = doc_np.shape
 
     # Get non-zero entries
     rows, cols = np.nonzero(doc_np)
-    vals = doc_np[rows, cols].astype(np.float32)
+    vals = np.asarray(doc_np[rows, cols]).ravel().astype(np.float32)
 
     # Sort by (doc_id, term_id) for CSR format
     sort_idx = np.lexsort((cols, rows))

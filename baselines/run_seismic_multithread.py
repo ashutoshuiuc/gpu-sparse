@@ -12,8 +12,14 @@ import time
 import tarfile
 import numpy as np
 
-# Ensure seismic_bench env is active.
+# Ensure a Seismic environment env is active.
 # Paths are overridable via env vars; defaults are repo-relative.
+# HEAP_FACTOR NOTE
+# NOTE: heap_factor must lie in (0,1); Seismic's docs recommend [0.7, 1.0].
+# Earlier runs used 10.0, which is outside the domain and effectively disables
+# block skipping: it collapsed Recall@1000 from 0.953 to 0.738 and made query_cut
+# inert. The library performs no range validation, so the value must be set with care.
+
 _REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 DATA_DIR = os.environ.get("SEISMIC_DATA", os.path.join(_REPO, "seismic_data"))
 RESULTS_DIR = os.environ.get("RESULTS_DIR", os.path.join(_REPO, "results"))
@@ -146,7 +152,7 @@ def main():
     print("Warmup...")
     _ = index.batch_search(
         query_ids_arr[:100], query_components[:100], query_values[:100],
-        k=10, query_cut=5, heap_factor=10.0, num_threads=4
+        k=10, query_cut=5, heap_factor=0.7, num_threads=4
     )
 
     all_results = {
@@ -169,7 +175,7 @@ def main():
             t0 = time.perf_counter()
             results = index.batch_search(
                 query_ids_arr, query_components, query_values,
-                k=10, query_cut=5, heap_factor=10.0, num_threads=n_threads
+                k=10, query_cut=5, heap_factor=0.7, num_threads=n_threads
             )
             elapsed = time.perf_counter() - t0
             times.append(elapsed)
@@ -203,7 +209,7 @@ def main():
         t0 = time.perf_counter()
         results = index.batch_search(
             query_ids_arr, query_components, query_values,
-            k=1000, query_cut=qcut, heap_factor=10.0, num_threads=8
+            k=1000, query_cut=qcut, heap_factor=0.7, num_threads=8
         )
         elapsed = time.perf_counter() - t0
         per_query_us = elapsed / n_queries * 1e6
@@ -233,7 +239,7 @@ def main():
         t0 = time.perf_counter()
         results = index.batch_search(
             query_ids_arr, query_components, query_values,
-            k=1000, query_cut=50, heap_factor=10.0, num_threads=n_threads
+            k=1000, query_cut=50, heap_factor=0.7, num_threads=n_threads
         )
         elapsed = time.perf_counter() - t0
         per_query_us = elapsed / n_queries * 1e6

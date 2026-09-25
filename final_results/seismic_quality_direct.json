@@ -1,4 +1,5 @@
 {
+  "_SUPERSEDED": "SUPERSEDED 2026-08. heap_factor=10.0, out of domain. See final_results/corrected_2026_08/seismic_heapfactor_sweep.json.",
   "system": "Seismic",
   "dataset": "msmarco-v1-splade",
   "n_docs": 8841823,

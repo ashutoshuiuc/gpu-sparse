@@ -1,0 +1,61 @@
+{
+  "env": {
+    "gpu": "NVIDIA H100 80GB HBM3",
+    "torch": "2.9.1+cu128"
+  },
+  "exactness_sweep": {
+    "max_terms_64": {
+      "recall@10": 0.9987999999999999,
+      "recall@100": 0.9990800000000001,
+      "recall@1000": 0.99888,
+      "exact": false
+    },
+    "max_terms_96": {
+      "recall@10": 1.0,
+      "recall@100": 0.9999600000000001,
+      "recall@1000": 0.999996,
+      "exact": false
+    },
+    "max_terms_128": {
+      "recall@10": 1.0,
+      "recall@100": 1.0,
+      "recall@1000": 1.0,
+      "exact": true
+    }
+  },
+  "query_nnz": {
+    "mean": 44.794,
+    "max": 107,
+    "over_64": 67,
+    "n": 500
+  },
+  "spare_decomposition": {
+    "100000": {
+      "ours_scatter_add_ms": 5.746574401855469,
+      "spare_as_published_ms": 1955.9680989583333,
+      "spare_host_indptr_ms": 413.7216389973958,
+      "spare_fully_batched_ms": 511.6593831380208,
+      "speedup_vs_as_published": 340.37114325480326,
+      "speedup_vs_host_indptr": 71.99448054893578,
+      "speedup_vs_fully_batched": 89.03728506026388
+    },
+    "500000": {
+      "ours_scatter_add_ms": 34.083428955078126,
+      "spare_as_published_ms": 1997.63232421875,
+      "spare_host_indptr_ms": 416.3529052734375,
+      "spare_fully_batched_ms": 571.7578531901041,
+      "speedup_vs_as_published": 58.61007490917726,
+      "speedup_vs_host_indptr": 12.215698890572002,
+      "speedup_vs_fully_batched": 16.775244472722495
+    },
+    "1000000": {
+      "ours_scatter_add_ms": 71.45729370117188,
+      "spare_as_published_ms": 2049.49072265625,
+      "spare_host_indptr_ms": 420.8565673828125,
+      "spare_fully_batched_ms": 591.1269938151041,
+      "speedup_vs_as_published": 28.681337012664375,
+      "speedup_vs_host_indptr": 5.889623656093074,
+      "speedup_vs_fully_batched": 8.272451462927567
+    }
+  }
+}

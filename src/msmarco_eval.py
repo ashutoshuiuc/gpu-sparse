@@ -149,7 +149,10 @@ def build_gpu_index_from_dense(doc_reps, device):
     vals = doc_np[rows, cols].astype(np.float32)
 
     # Sort by term for efficient posting list construction
-    sort_idx = np.argsort(cols)
+    # kind='stable' so entries stay ascending by doc_id within each posting list,
+    # which is the layout invariant the paper and gpu_inverted_index.py document.
+    # Default (quicksort) left 96.2% of posting lists non-ascending.
+    sort_idx = np.argsort(cols, kind='stable')
     sorted_terms = cols[sort_idx]
     sorted_docs = rows[sort_idx].astype(np.int32)
     sorted_scores = vals[sort_idx]
@@ -194,7 +197,7 @@ def build_gpu_index_from_dense(doc_reps, device):
     return index
 
 
-def prepare_query_tensors(query_reps, max_terms=96, device="cuda:0"):
+def prepare_query_tensors(query_reps, max_terms=128, device="cuda:0"):
     """Convert dense query reps to sparse (term_ids, term_scores) tensors."""
     n_queries = query_reps.shape[0]
     query_np = query_reps.numpy()
@@ -555,7 +558,7 @@ def main():
 
     # ---- Prepare query tensors ----
     print("Preparing query tensors...")
-    q_term_ids, q_term_scores = prepare_query_tensors(query_reps, max_terms=96, device=device)
+    q_term_ids, q_term_scores = prepare_query_tensors(query_reps, max_terms=128, device=device)
 
     # ---- GPUSparse Evaluation ----
     print("\n=== GPUSparse Triton Evaluation ===")

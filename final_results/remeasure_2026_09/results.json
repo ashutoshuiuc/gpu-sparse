@@ -1,0 +1,246 @@
+{
+ "_description": "September 2026 audit re-measurement of GPUSparse.",
+ "environment": {
+  "gpu": "NVIDIA H100 80GB HBM3",
+  "torch": "2.9.1+cu128",
+  "triton": "3.5.1",
+  "cuda": "12.8"
+ },
+ "conventions": {
+  "latency": "CUDA events, median of 15 after 5 warmups",
+  "counters": "ncu only, collected separately",
+  "reference": "exhaustive fp32 dense scoring of every document, no pruning"
+ },
+ "quality_and_exactness": {
+  "_why": "settle the 0.892-vs-0.888 MRR discrepancy and the 1.000-vs-0.999 recall discrepancy with one measurement per scale.",
+  "scales": {
+   "100000": {
+    "exactness_sweep": {
+     "64": {
+      "query_stats": {
+       "n_queries": 500,
+       "mean_nnz": 44.794,
+       "max_nnz": 107,
+       "width_used": 64,
+       "n_truncated": 67
+      },
+      "recall@10": 0.9987999999999999,
+      "recall@100": 0.9990800000000001,
+      "recall@1000": 0.99888
+     },
+     "96": {
+      "query_stats": {
+       "n_queries": 500,
+       "mean_nnz": 44.794,
+       "max_nnz": 107,
+       "width_used": 96,
+       "n_truncated": 2
+      },
+      "recall@10": 1.0,
+      "recall@100": 0.9999600000000001,
+      "recall@1000": 0.999996
+     },
+     "128": {
+      "query_stats": {
+       "n_queries": 500,
+       "mean_nnz": 44.794,
+       "max_nnz": 107,
+       "width_used": 128,
+       "n_truncated": 0
+      },
+      "recall@10": 1.0,
+      "recall@100": 1.0,
+      "recall@1000": 1.0
+     },
+     "None": {
+      "query_stats": {
+       "n_queries": 500,
+       "mean_nnz": 44.794,
+       "max_nnz": 107,
+       "width_used": 107,
+       "n_truncated": 0
+      },
+      "recall@10": 1.0,
+      "recall@100": 1.0,
+      "recall@1000": 1.0
+     }
+    },
+    "quality": {
+     "_note": "no docids in meta; row index used as document id",
+     "mrr@10": 0.8916166666666666,
+     "ndcg@10": 0.9115277015591158,
+     "recall@1000": 0.998,
+     "n_queries": 500
+    },
+    "latency_ms": 3.338560104370117,
+    "per_query_us": 6.677120208740234,
+    "selfconsistency": {
+     "bitwise_equal_scores": false,
+     "max_abs_score_diff": 3.814697265625e-06,
+     "top10_agreement": 1.0,
+     "top1000_agreement": 1.0,
+     "docs_within_1e-5_of_kth": 1.00600004196167
+    }
+   },
+   "500000": {
+    "exactness_sweep": {
+     "64": {
+      "query_stats": {
+       "n_queries": 500,
+       "mean_nnz": 44.794,
+       "max_nnz": 107,
+       "width_used": 64,
+       "n_truncated": 67
+      },
+      "recall@10": 0.9996,
+      "recall@100": 0.9990800000000001,
+      "recall@1000": 0.998952
+     },
+     "96": {
+      "query_stats": {
+       "n_queries": 500,
+       "mean_nnz": 44.794,
+       "max_nnz": 107,
+       "width_used": 96,
+       "n_truncated": 2
+      },
+      "recall@10": 1.0,
+      "recall@100": 0.9999600000000001,
+      "recall@1000": 0.999992
+     },
+     "128": {
+      "query_stats": {
+       "n_queries": 500,
+       "mean_nnz": 44.794,
+       "max_nnz": 107,
+       "width_used": 128,
+       "n_truncated": 0
+      },
+      "recall@10": 1.0,
+      "recall@100": 1.0,
+      "recall@1000": 1.0
+     },
+     "None": {
+      "query_stats": {
+       "n_queries": 500,
+       "mean_nnz": 44.794,
+       "max_nnz": 107,
+       "width_used": 107,
+       "n_truncated": 0
+      },
+      "recall@10": 1.0,
+      "recall@100": 1.0,
+      "recall@1000": 1.0
+     }
+    },
+    "quality": {
+     "_note": "no docids in meta; row index used as document id",
+     "mrr@10": 0.7710055555555553,
+     "ndcg@10": 0.8086349176101452,
+     "recall@1000": 0.996,
+     "n_queries": 500
+    },
+    "latency_ms": 17.298656463623047,
+    "per_query_us": 34.597312927246094,
+    "selfconsistency": {
+     "bitwise_equal_scores": false,
+     "max_abs_score_diff": 3.814697265625e-06,
+     "top10_agreement": 1.0,
+     "top1000_agreement": 1.0,
+     "docs_within_1e-5_of_kth": 1.00600004196167
+    }
+   },
+   "1000000": {
+    "exactness_sweep": {
+     "64": {
+      "query_stats": {
+       "n_queries": 500,
+       "mean_nnz": 44.794,
+       "max_nnz": 107,
+       "width_used": 64,
+       "n_truncated": 67
+      },
+      "recall@10": 0.9996,
+      "recall@100": 0.99932,
+      "recall@1000": 0.9990180000000001
+     },
+     "96": {
+      "query_stats": {
+       "n_queries": 500,
+       "mean_nnz": 44.794,
+       "max_nnz": 107,
+       "width_used": 96,
+       "n_truncated": 2
+      },
+      "recall@10": 1.0,
+      "recall@100": 1.0,
+      "recall@1000": 0.99999
+     },
+     "128": {
+      "query_stats": {
+       "n_queries": 500,
+       "mean_nnz": 44.794,
+       "max_nnz": 107,
+       "width_used": 128,
+       "n_truncated": 0
+      },
+      "recall@10": 1.0,
+      "recall@100": 1.0,
+      "recall@1000": 1.0
+     },
+     "None": {
+      "query_stats": {
+       "n_queries": 500,
+       "mean_nnz": 44.794,
+       "max_nnz": 107,
+       "width_used": 107,
+       "n_truncated": 0
+      },
+      "recall@10": 1.0,
+      "recall@100": 1.0,
+      "recall@1000": 1.0
+     }
+    },
+    "quality": {
+     "_note": "no docids in meta; row index used as document id",
+     "mrr@10": 0.7028571428571427,
+     "ndcg@10": 0.7453053353916073,
+     "recall@1000": 0.996,
+     "n_queries": 500
+    },
+    "latency_ms": 35.26998519897461,
+    "per_query_us": 70.53997039794922,
+    "selfconsistency": {
+     "bitwise_equal_scores": false,
+     "max_abs_score_diff": 3.814697265625e-06,
+     "top10_agreement": 1.0,
+     "top1000_agreement": 1.0,
+     "docs_within_1e-5_of_kth": 1.0040000677108765
+    }
+   }
+  }
+ },
+ "invariant": {
+  "_why": "verify the ascending-document-id invariant is enforced, not assumed.",
+  "scales": {
+   "100000": {
+    "terms_with_2plus_postings": 26972,
+    "non_ascending_lists": 0,
+    "pct_non_ascending": 0.0,
+    "invariant_holds": true
+   },
+   "500000": {
+    "terms_with_2plus_postings": 28023,
+    "non_ascending_lists": 0,
+    "pct_non_ascending": 0.0,
+    "invariant_holds": true
+   },
+   "1000000": {
+    "terms_with_2plus_postings": 28245,
+    "non_ascending_lists": 0,
+    "pct_non_ascending": 0.0,
+    "invariant_holds": true
+   }
+  }
+ }
+}

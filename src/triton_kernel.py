@@ -118,9 +118,13 @@ def _fast_scatter_add_kernel(
     q_idx = tl.program_id(0).to(tl.int64)
     t_pos = tl.program_id(1).to(tl.int64)
 
-    # Load query term
+    # Load query term. Bound-check against vocab_size before using term_id as an
+    # index: offsets_ptr and lengths_ptr are only vocab_size long, so an
+    # out-of-range term_id reads garbage metadata and then issues unmasked wild
+    # loads from doc_ids_ptr and wild atomics into out_scores_ptr. vocab_size was
+    # already a kernel parameter but was previously unused.
     term_id = tl.load(query_term_ids_ptr + q_idx * max_qterms + t_pos)
-    if term_id < 0:
+    if term_id < 0 or term_id >= vocab_size:
         return
 
     q_score = tl.load(query_term_scores_ptr + q_idx * max_qterms + t_pos)
@@ -165,6 +169,11 @@ def triton_fused_score(
     Uses _fast_scatter_add_kernel for posting list traversal,
     then torch.topk for final selection.
     """
+    # tl.arange requires a power-of-two length, so BLOCK_PL must be one. Without
+    # this check an invalid value fails deep inside the Triton JIT with an opaque
+    # error rather than at the call site.
+    assert block_pl > 0 and (block_pl & (block_pl - 1)) == 0, \
+        f"block_pl must be a positive power of 2, got {block_pl}"
     batch_size = query_term_ids.shape[0]
     max_qterms = query_term_ids.shape[1]
     device = index.device
@@ -210,7 +219,9 @@ def _wand_pruned_scatter_kernel(
     """
     WAND-pruned scatter kernel: skip terms whose upper bound < threshold.
     """
-    q_idx = tl.program_id(0)
+    # int64: q_idx * num_docs overflows signed int32 once batch * num_docs > 2^31
+    # (e.g. batch 243 at 8.84M docs), causing illegal memory access.
+    q_idx = tl.program_id(0).to(tl.int64)
     t_pos = tl.program_id(1)
 
     term_id = tl.load(query_term_ids_ptr + q_idx * max_qterms + t_pos)
@@ -242,7 +253,7 @@ def _wand_pruned_scatter_kernel(
         pl_scores = tl.load(doc_scores_ptr + chunk_start + offs, mask=mask, other=0.0)
 
         contribs = q_score * pl_scores
-        out_offsets = q_idx * num_docs + pl_doc_ids
+        out_offsets = q_idx * num_docs + pl_doc_ids.to(tl.int64)
         tl.atomic_add(out_scores_ptr + out_offsets, contribs, mask=mask & (pl_doc_ids >= 0))
 
 
@@ -259,6 +270,11 @@ def triton_wand_score(
     Phase 1: Compute upper bounds, do coarse scoring with aggressive pruning
     Phase 2: Refine with exact scoring on promising terms
     """
+    # tl.arange requires a power-of-two length, so BLOCK_PL must be one. Without
+    # this check an invalid value fails deep inside the Triton JIT with an opaque
+    # error rather than at the call site.
+    assert block_pl > 0 and (block_pl & (block_pl - 1)) == 0, \
+        f"block_pl must be a positive power of 2, got {block_pl}"
     batch_size = query_term_ids.shape[0]
     max_qterms = query_term_ids.shape[1]
     device = index.device

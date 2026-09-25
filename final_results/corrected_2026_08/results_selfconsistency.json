@@ -1,0 +1,32 @@
+{
+  "beir_trec-covid": {
+    "docs": 171332,
+    "queries": 50,
+    "mono_vs_mono_top10": 1.0,
+    "mono_vs_mono_top1000": 0.9999800000000001,
+    "mono_scores_bitwise_identical": false,
+    "mono_vs_mono_max_score_diff": 5.7220458984375e-06,
+    "chunked_vs_chunked_top10": 1.0,
+    "chunked_vs_chunked_top1000": 0.9999800000000001,
+    "mono_vs_chunked_top10": 0.996,
+    "mono_vs_chunked_top1000": 1.0,
+    "mono_vs_compact_top10": 0.998,
+    "mono_vs_compact_top1000": 1.0,
+    "docs_within_1e-5_of_kth": 1
+  },
+  "beir_quora_test": {
+    "docs": 522931,
+    "queries": 200,
+    "mono_vs_mono_top10": 0.9995,
+    "mono_vs_mono_top1000": 1.0,
+    "mono_scores_bitwise_identical": false,
+    "mono_vs_mono_max_score_diff": 7.62939453125e-06,
+    "chunked_vs_chunked_top10": 1.0,
+    "chunked_vs_chunked_top1000": 1.0,
+    "mono_vs_chunked_top10": 0.9995,
+    "mono_vs_chunked_top1000": 1.0,
+    "mono_vs_compact_top10": 0.9995,
+    "mono_vs_compact_top1000": 1.0,
+    "docs_within_1e-5_of_kth": 1
+  }
+}
