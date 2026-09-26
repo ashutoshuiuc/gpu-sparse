@@ -23,7 +23,8 @@ result files each number comes from. It does not contain the paper source.
 
 The paper was substantially revised in September 2026. Several first-version
 figures were withdrawn, and two contribution claims were dropped outright. The
-ones that matter to anyone reading this code:
+arXiv v2 "Comments" field lists all of them. The ones that matter to anyone
+reading this code:
 
 **1. Scoring is exact at recall 1.000, and it is not bitwise reproducible.** Both
 halves matter. Against an exhaustive FP32 reference, Recall@10, @100 and @1000 are
@@ -170,5 +171,5 @@ distrusted; two such figures here were wrong by 42x and 1.56x.
 
 ## Citation
 
-Please cite the paper rather than this repository. Its revision history records
-which claims changed and why.
+Please cite the paper rather than this repository. The arXiv v2 "Comments" field
+records which claims changed and why.

@@ -23,7 +23,8 @@ Anything older reflects pre-audit numbers, including the 0.37% and 62.6%
 bandwidth figures that were analytic byte counts wrong by 42x and 1.56x in
 opposite directions, the Seismic runs at heap_factor=10.0 (outside the
 parameter's documented domain), and the 0.999 recall figures that came from
-truncating queries to 64 terms. See the paper's "Changes from version 1".
+truncating queries to 64 terms. The full list of corrections is in the arXiv v2
+"Comments" field on the paper's abstract page.
 
 ## Rule going forward
 
